@@ -1,5 +1,7 @@
 package com.azzam.batteryalarm
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -12,10 +14,14 @@ import com.azzam.batteryalarm.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var sharedPrefs: SharedPreferences
+
     lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        sharedPrefs = getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
@@ -33,6 +39,9 @@ class MainActivity : AppCompatActivity() {
                     if (editable.toString().toInt() !in 1..100) {
                         binding.percentageEditText.setText(100.toString())
                     }
+                    updatePercentage(binding.percentageEditText.text.toString().toInt())
+                } else {
+                    updatePercentage(90) // Default value
                 }
             }
 
@@ -41,6 +50,13 @@ class MainActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
         })
+    }
+
+    private fun updatePercentage(value: Int){
+        with(sharedPrefs.edit()){
+            putInt(PERCENTAGE_KEY, value)
+            commit()
+        }
     }
 
     private fun alarmSwitchOnChange(view: CompoundButton, checked: Boolean) {
