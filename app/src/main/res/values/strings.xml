@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Battery Alarm</string>
+    <string name="percentage_edittext_hint">90%</string>
+    <string name="alarm_switch_text">Alarm</string>
 </resources>
