@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.widget.CompoundButton
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import com.azzam.batteryalarm.databinding.ActivityMainBinding
@@ -19,6 +20,10 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         addTextChangeListener()
+
+        binding.alarmSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+            alarmSwitchOnChange(buttonView, isChecked)
+        }
     }
 
     private fun addTextChangeListener() {
@@ -36,5 +41,9 @@ class MainActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
         })
+    }
+
+    private fun alarmSwitchOnChange(view: CompoundButton, checked: Boolean) {
+        // TODO: Disable/Enable the battery alarm
     }
 }
